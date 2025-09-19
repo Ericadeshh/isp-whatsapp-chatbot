@@ -1,0 +1,30 @@
+version: "3.1"
+nlu:
+  - intent: greet
+    examples: |
+      - hello
+      - hi
+      - hey
+  - intent: check_bill
+    examples: |
+      - check my bill
+      - what's my balance
+      - how much do I owe
+      - bill details
+  - intent: report_outage
+    examples: |
+      - internet is down
+      - no connection
+      - report an outage
+      - network issue
+  - intent: signup
+    examples: |
+      - sign me up
+      - new account
+      - register
+      - create account
+  - intent: goodbye
+    examples: |
+      - bye
+      - goodbye
+      - see you

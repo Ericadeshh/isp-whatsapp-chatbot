@@ -1,0 +1,21 @@
+version: "3.1"
+intents:
+  - greet
+  - check_bill
+  - report_outage
+  - signup
+  - goodbye
+responses:
+  utter_greet:
+    - text: "Hello! Welcome to ISP Chatbot. How can I assist you today? 😊"
+  utter_check_bill:
+    - text: "Please provide your phone number or account ID to check your bill."
+  utter_report_outage:
+    - text: "Sorry to hear you're having issues! Please describe the problem or share your location."
+  utter_signup:
+    - text: "Great! Please provide your phone number and full name to sign up."
+  utter_goodbye:
+    - text: "Thanks for chatting! Have a great day! 👋"
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
