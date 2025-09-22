@@ -1,0 +1,49 @@
+# Python virtual environment
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+pip-self-check.json
+
+# Environment variables
+.env
+
+# Rasa model files, logs, and cache
+backend/rasa/models/
+backend/rasa/logs/
+backend/rasa/*.log
+backend/rasa/cache/
+
+# Frontend (React) dependencies and build
+frontend/node_modules/
+frontend/build/
+frontend/.cache/
+frontend/dist/
+
+# Logs
+backend/logs/
+backend/test_logs/
+*.log
+
+# Editor/IDE files
+.vscode/
+.idea/
+.cursor/
+.cursorrules
+*.swp
+*.swo
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Additional heavy or temporary files
+*.bak
+*.tmp
+*.cache
+*.zip
+*.tar.gz
+backend/*.tar.gz
