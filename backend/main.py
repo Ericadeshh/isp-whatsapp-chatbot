@@ -1,10 +1,11 @@
 import logging
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel
+from twilio.twiml.messaging_response import MessagingResponse
 import requests
 from db.database import Session, User
 
-# Configure logging with emojis
+# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
@@ -24,11 +25,11 @@ async def shutdown_event():
 
 @app.get("/")
 async def read_root():
-    logger.info("📥 Received request to root endpoint")
+    logger.info("📥 Received root request")
     try:
         with Session() as session:
             user_count = session.query(User).count()
-            logger.info(f"📊 Found {user_count} users in the database")
+            logger.info(f"📊 Found {user_count} users")
             return {"message": "ISP Chatbot Backend", "user_count": user_count}
     except Exception as e:
         logger.error(f"❌ Error querying users: {str(e)}")
@@ -43,14 +44,13 @@ async def add_user(user: UserCreate):
     logger.info(f"➕ Adding user: {user.name} ({user.phone})")
     try:
         with Session() as session:
-            existing_user = session.query(User).filter(User.phone == user.phone).first()
-            if existing_user:
-                logger.warning(f"⚠️ User with phone {user.phone} already exists")
+            if session.query(User).filter(User.phone == user.phone).first():
+                logger.warning(f"⚠️ Phone {user.phone} exists")
                 raise HTTPException(status_code=400, detail="Phone number already exists")
             new_user = User(phone=user.phone, name=user.name)
             session.add(new_user)
             session.commit()
-            logger.info("✅ User added successfully")
+            logger.info("✅ User added")
             return {"message": "User created", "user_id": new_user.id}
     except HTTPException as e:
         raise e
@@ -69,5 +69,22 @@ async def chat(message: ChatMessage):
         logger.info(f"✅ Rasa response: {rasa_response.json()}")
         return rasa_response.json()
     except Exception as e:
-        logger.error(f"❌ Error processing chat: {str(e)}")
+        logger.error(f"❌ Chat error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/whatsapp")
+async def whatsapp_webhook(request: Request):
+    data = await request.form()
+    message = data.get("Body")
+    sender = data.get("From")
+    logger.info(f"📱 WhatsApp message from {sender}: {message}")
+    try:
+        rasa_response = requests.post("http://localhost:5005/webhooks/rest/webhook", json={"sender": sender, "message": message})
+        response_text = rasa_response.json()[0]["text"] if rasa_response.json() else "Sorry, I couldn't process that."
+        logger.info(f"✅ WhatsApp response: {response_text}")
+        twiml = MessagingResponse()
+        twiml.message(response_text)
+        return Response(content=str(twiml), media_type="application/xml")
+    except Exception as e:
+        logger.error(f"❌ WhatsApp error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
