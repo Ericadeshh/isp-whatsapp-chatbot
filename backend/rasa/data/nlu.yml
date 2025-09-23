@@ -5,26 +5,58 @@ nlu:
       - hello
       - hi
       - hey
+      - sasa
+      - mambo
+      - good morning
+      - what's up
+      - hola
+      - salaam
+      - jambo
   - intent: check_bill
     examples: |
       - check my bill
+      - my bill
+      - show my bill
       - what's my balance
-      - how much do I owe
       - bill details
+      - how much is my bill
+      - niko na deni gani
+      - check balance
+      - invoice status
+      - payment due
   - intent: report_outage
     examples: |
-      - internet is down
-      - no connection
-      - report an outage
-      - network issue
+      - my internet is down
+      - I am not connected
+      - no internet
+      - connection issue
+      - report outage
+      - net iko down
+      - internet haifanyi kazi
+      - no network
+      - signal problem
+      - service outage
   - intent: signup
     examples: |
       - sign me up
-      - new account
-      - register
+      - signup
       - create account
+      - register
+      - join now
+      - njiunge
+      - open an account
+      - new account
+      - get started
+      - subscribe
   - intent: goodbye
     examples: |
-      - bye
       - goodbye
+      - bye
       - see you
+      - thanks
+      - kwaheri
+      - baadaye
+      - later
+      - take care
+      - adios
+      - exit

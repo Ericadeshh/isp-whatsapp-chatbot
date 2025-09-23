@@ -5,9 +5,10 @@ intents:
   - report_outage
   - signup
   - goodbye
+  - nlu_fallback
 responses:
   utter_greet:
-    - text: "Hello! Welcome to ISP Chatbot. How can I assist you today? 😊"
+    - text: "Hello! Welcome to ISP Chatbot. How can I assist you today? 😊 Try saying 'check my bill', 'report outage', 'signup', or 'goodbye'."
   utter_check_bill:
     - text: "Please provide your phone number or account ID to check your bill."
   utter_report_outage:
@@ -16,6 +17,8 @@ responses:
     - text: "Great! Please provide your phone number and full name to sign up."
   utter_goodbye:
     - text: "Thanks for chatting! Have a great day! 👋"
+  utter_fallback:
+    - text: "Sorry, I didn't understand. Try saying 'check my bill', 'report outage', 'signup', or 'goodbye'. 😊"
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

@@ -1,11 +1,10 @@
 import logging
 from fastapi import FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel
-from twilio.twiml.messaging_response import MessagingResponse
+from twilio.twiml.messaging_response import MessagingResponse  # pyright: ignore[reportMissingImports]
 import requests
 from db.database import Session, User
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
@@ -66,9 +65,14 @@ async def chat(message: ChatMessage):
     logger.info(f"💬 Received message: {message.text}")
     try:
         rasa_response = requests.post("http://localhost:5005/webhooks/rest/webhook", json={"sender": "user", "message": message.text})
-        logger.info(f"✅ Rasa response: {rasa_response.json()}")
-        return rasa_response.json()
-    except Exception as e:
+        rasa_response.raise_for_status()
+        response_data = rasa_response.json()
+        if not response_data:
+            logger.warning("⚠️ Empty Rasa response")
+            return [{"recipient_id": "user", "text": "Sorry, I didn't understand. Try saying 'check my bill', 'report outage', 'signup', or 'goodbye'. 😊"}]
+        logger.info(f"✅ Rasa response: {response_data}")
+        return response_data
+    except requests.RequestException as e:
         logger.error(f"❌ Chat error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -80,11 +84,13 @@ async def whatsapp_webhook(request: Request):
     logger.info(f"📱 WhatsApp message from {sender}: {message}")
     try:
         rasa_response = requests.post("http://localhost:5005/webhooks/rest/webhook", json={"sender": sender, "message": message})
-        response_text = rasa_response.json()[0]["text"] if rasa_response.json() else "Sorry, I couldn't process that."
+        rasa_response.raise_for_status()
+        response_data = rasa_response.json()
+        response_text = response_data[0]["text"] if response_data else "Sorry, I didn't understand. Try saying 'check my bill', 'report outage', 'signup', or 'goodbye'. 😊"
         logger.info(f"✅ WhatsApp response: {response_text}")
         twiml = MessagingResponse()
         twiml.message(response_text)
         return Response(content=str(twiml), media_type="application/xml")
-    except Exception as e:
+    except requests.RequestException as e:
         logger.error(f"❌ WhatsApp error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))

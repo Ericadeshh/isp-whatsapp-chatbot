@@ -1,9 +1,7 @@
-
 import logging
 import os
 from rasa.model_training import train  # pyright: ignore[reportMissingImports]
 
-# Configure logging with emojis
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
@@ -16,7 +14,7 @@ MODEL_DIR = "models"
 def train_rasa():
     logger.info("🛠️ Starting Rasa model training...")
     try:
-        training_files = "."
+        training_files = "data"
         config = "config.yml"
         domain = "domain.yml"
         output = MODEL_DIR
@@ -25,7 +23,7 @@ def train_rasa():
             config=config,
             training_files=training_files,
             output=output,
-            force_training=False
+            force_training=True
         )
         logger.info(f"✅ Rasa model trained successfully: {model_path}")
     except Exception as e:

@@ -1,10 +1,26 @@
 version: "3.1"
 rules:
-  - rule: Say goodbye anytime the user says goodbye
-    steps:
-      - intent: goodbye
-      - action: utter_goodbye
-  - rule: Greet the user
+  - rule: Greet user
     steps:
       - intent: greet
       - action: utter_greet
+  - rule: Check bill
+    steps:
+      - intent: check_bill
+      - action: utter_check_bill
+  - rule: Report outage
+    steps:
+      - intent: report_outage
+      - action: utter_report_outage
+  - rule: Signup
+    steps:
+      - intent: signup
+      - action: utter_signup
+  - rule: Say goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+  - rule: Fallback for unknown intents
+    steps:
+      - intent: nlu_fallback
+      - action: utter_fallback

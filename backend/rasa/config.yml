@@ -1,12 +1,19 @@
+version: "3.1"
 language: en
+recipe: default.v1
 pipeline:
   - name: WhitespaceTokenizer
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer
+  - name: CountVectorsFeaturizer
+    analyzer: char_wb
+    min_ngram: 1
+    max_ngram: 4
   - name: DIETClassifier
     epochs: 100
-    constrain_similarities: true # to avoid similar intents being grouped together
+    constrain_similarities: true
+    model_confidence: softmax
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100
