@@ -8,10 +8,8 @@ from datetime import datetime
 from dotenv import load_dotenv
 import os
 
-# Load environment variables
 load_dotenv()
 
-# Configure logging to terminal with emojis
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
@@ -19,7 +17,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Database configuration from .env
 MYSQL_USER = os.getenv("MYSQL_USER", "Ericadesh")
 MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "404-found-#")
 MYSQL_HOST = os.getenv("MYSQL_HOST", "localhost")
@@ -28,7 +25,6 @@ DATABASE_URL = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}/{MYS
 
 Base = declarative_base()
 
-# Define models
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
@@ -59,14 +55,11 @@ class Log(Base):
     message = Column(Text, nullable=False)
 
 def init_db():
-    """Initialize database: check existence of db, tables, columns; load existing data or create afresh."""
     try:
-        # Create engine for initial connection (without specific db)
         initial_url = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}"
         engine = create_engine(initial_url, echo=False)
         logger.info("🔌 Attempting connection to MySQL server...")
 
-        # Check if database exists
         with engine.connect() as conn:
             result = conn.execute(text(f"SHOW DATABASES LIKE '{MYSQL_DATABASE}'"))
             if result.fetchone():
@@ -76,12 +69,10 @@ def init_db():
                 conn.execute(text(f"CREATE DATABASE {MYSQL_DATABASE}"))
                 logger.info(f"✅ Database '{MYSQL_DATABASE}' created successfully.")
 
-        # Reconnect to the specific database
         engine = create_engine(DATABASE_URL, echo=False)
         inspector = inspect(engine)
         logger.info("🔌 Connected to MySQL server successfully.")
 
-        # Check and create tables, verify columns
         tables = {"users": User, "bills": Bill, "outages": Outage, "logs": Log}
         for table_name, model in tables.items():
             if inspector.has_table(table_name):
@@ -100,23 +91,21 @@ def init_db():
                 model.__table__.create(engine)
                 logger.info(f"✅ Table '{table_name}' created successfully.")
 
-            # Check if table has rows; if empty, insert sample data (except for logs)
             with engine.connect() as conn:
-                row_count = conn.execute(text(f"SELECT COUNT(*) FROM {table_name}")).scalar()
-                if row_count > 0:
-                    logger.info(f"📈 Table '{table_name}' has {row_count} rows. Using existing data.")
-                elif table_name != "logs":
-                    logger.info(f"🆕 Table '{table_name}' is empty. Inserting sample data afresh...")
-                    if table_name == "users":
-                        conn.execute(text("INSERT INTO users (phone, name) VALUES ('1234567890', 'Sample User')"))
-                    elif table_name == "bills":
-                        conn.execute(text("INSERT INTO bills (user_id, amount, due_date, status) VALUES (1, 100.0, '2025-10-01', 'pending')"))
-                    elif table_name == "outages":
-                        conn.execute(text("INSERT INTO outages (description, start_time) VALUES ('Sample outage', '2025-09-19')"))
-                    conn.commit()
-                    logger.info(f"✅ Sample data inserted into '{table_name}' successfully.")
+                with conn.begin():  # Use begin() for transaction
+                    row_count = conn.execute(text(f"SELECT COUNT(*) FROM {table_name}")).scalar()
+                    if row_count > 0:
+                        logger.info(f"📈 Table '{table_name}' has {row_count} rows. Using existing data.")
+                    elif table_name != "logs":
+                        logger.info(f"🆕 Table '{table_name}' is empty. Inserting sample data afresh...")
+                        if table_name == "users":
+                            conn.execute(text("INSERT INTO users (phone, name) VALUES ('1234567890', 'Sample User')"))
+                        elif table_name == "bills":
+                            conn.execute(text("INSERT INTO bills (user_id, amount, due_date, status) VALUES (1, 100.0, '2025-10-01', 'pending')"))
+                        elif table_name == "outages":
+                            conn.execute(text("INSERT INTO outages (description, start_time) VALUES ('Sample outage', '2025-09-19')"))
+                        logger.info(f"✅ Sample data inserted into '{table_name}' successfully.")
 
-        # Create session
         Session = sessionmaker(bind=engine)
         logger.info("✅ Database initialization completed successfully.")
         return engine, Session
@@ -125,5 +114,4 @@ def init_db():
         logger.error(f"❌ Database initialization failed: {str(e)}")
         raise
 
-# Initialize database on module import (runs on server startup)
 engine, Session = init_db()

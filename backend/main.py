@@ -5,34 +5,60 @@ from twilio.twiml.messaging_response import MessagingResponse
 import requests
 from db.database import Session, User, Log
 from datetime import datetime
+import pymysql
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+# Database configuration
+MYSQL_USER = os.getenv("MYSQL_USER", "Ericadesh")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "404-found-#")
+MYSQL_HOST = os.getenv("MYSQL_HOST", "localhost")
+MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "isp_chatbot")
 
 # Custom logging handler to store logs in database
 class DBHandler(logging.Handler):
     def emit(self, record):
         try:
-            with Session() as session:
-                log_entry = Log(
-                    timestamp=datetime.fromtimestamp(record.created),
-                    level=record.levelname,
-                    message=record.getMessage()
+            logging.debug(f"DBHandler: Attempting to log: {record.getMessage()}")
+            conn = pymysql.connect(
+                user=MYSQL_USER,
+                password=MYSQL_PASSWORD,
+                host=MYSQL_HOST,
+                database=MYSQL_DATABASE,
+                charset='utf8mb4',
+                cursorclass=pymysql.cursors.DictCursor
+            )
+            with conn.cursor() as cursor:
+                cursor.execute(
+                    "INSERT INTO logs (timestamp, level, message) VALUES (%s, %s, %s)",
+                    (datetime.fromtimestamp(record.created).strftime('%Y-%m-%d %H:%M:%S'), record.levelname, record.getMessage())
                 )
-                session.add(log_entry)
-                session.commit()
+            conn.commit()
+            logging.debug(f"DBHandler: Successfully logged to database: {record.getMessage()}")
+            conn.close()
+        except pymysql.MySQLError as e:
+            logging.error(f"DBHandler Error: MySQL error: {str(e)}")
         except Exception as e:
-            print(f"Error logging to database: {e}")
+            logging.error(f"DBHandler Error: Unexpected error: {str(e)}")
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.StreamHandler(), DBHandler()]
-)
-logger = logging.getLogger(__name__)
+# Configure logger explicitly
+logger = logging.getLogger('isp_chatbot')
+logger.setLevel(logging.DEBUG)
+logger.handlers = []  # Clear default handlers
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.DEBUG)
+stream_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+logger.addHandler(stream_handler)
+logger.addHandler(DBHandler())
 
 app = FastAPI(title="ISP WhatsApp Chatbot")
 
 @app.on_event("startup")
 async def startup_event():
     logger.info("🚀 Starting FastAPI server...")
+    logger.debug("🧪 Testing DBHandler on startup")  # Test log
 
 @app.on_event("shutdown")
 async def shutdown_event():
