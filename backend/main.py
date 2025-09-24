@@ -1,14 +1,30 @@
 import logging
 from fastapi import FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel
-from twilio.twiml.messaging_response import MessagingResponse  # pyright: ignore[reportMissingImports]
+from twilio.twiml.messaging_response import MessagingResponse
 import requests
-from db.database import Session, User
+from db.database import Session, User, Log
+from datetime import datetime
+
+# Custom logging handler to store logs in database
+class DBHandler(logging.Handler):
+    def emit(self, record):
+        try:
+            with Session() as session:
+                log_entry = Log(
+                    timestamp=datetime.fromtimestamp(record.created),
+                    level=record.levelname,
+                    message=record.getMessage()
+                )
+                session.add(log_entry)
+                session.commit()
+        except Exception as e:
+            print(f"Error logging to database: {e}")
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.StreamHandler()]
+    handlers=[logging.StreamHandler(), DBHandler()]
 )
 logger = logging.getLogger(__name__)
 

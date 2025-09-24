@@ -1,10 +1,9 @@
-# db/database.py
 import logging
 import sqlalchemy
 from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import Column, Integer, String, DateTime, Float
+from sqlalchemy import Column, Integer, String, DateTime, Float, Text
 from datetime import datetime
 from dotenv import load_dotenv
 import os
@@ -52,6 +51,13 @@ class Outage(Base):
     start_time = Column(DateTime, nullable=False)
     end_time = Column(DateTime, nullable=True)
 
+class Log(Base):
+    __tablename__ = "logs"
+    id = Column(Integer, primary_key=True)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+    level = Column(String(20), nullable=False)
+    message = Column(Text, nullable=False)
+
 def init_db():
     """Initialize database: check existence of db, tables, columns; load existing data or create afresh."""
     try:
@@ -76,11 +82,10 @@ def init_db():
         logger.info("🔌 Connected to MySQL server successfully.")
 
         # Check and create tables, verify columns
-        tables = {"users": User, "bills": Bill, "outages": Outage}
+        tables = {"users": User, "bills": Bill, "outages": Outage, "logs": Log}
         for table_name, model in tables.items():
             if inspector.has_table(table_name):
                 logger.info(f"📊 Table '{table_name}' exists. Verifying columns...")
-                # Verify columns
                 existing_columns = {col["name"] for col in inspector.get_columns(table_name)}
                 expected_columns = set(model.__table__.columns.keys())
                 if existing_columns == expected_columns:
@@ -95,14 +100,13 @@ def init_db():
                 model.__table__.create(engine)
                 logger.info(f"✅ Table '{table_name}' created successfully.")
 
-            # Check if table has rows (data); if empty, insert sample data afresh
+            # Check if table has rows; if empty, insert sample data (except for logs)
             with engine.connect() as conn:
                 row_count = conn.execute(text(f"SELECT COUNT(*) FROM {table_name}")).scalar()
                 if row_count > 0:
                     logger.info(f"📈 Table '{table_name}' has {row_count} rows. Using existing data.")
-                else:
+                elif table_name != "logs":
                     logger.info(f"🆕 Table '{table_name}' is empty. Inserting sample data afresh...")
-                    # Insert sample data based on table
                     if table_name == "users":
                         conn.execute(text("INSERT INTO users (phone, name) VALUES ('1234567890', 'Sample User')"))
                     elif table_name == "bills":
