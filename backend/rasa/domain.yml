@@ -4,21 +4,76 @@ intents:
   - check_bill
   - report_outage
   - signup
+  - payment_status
+  - support_ticket
+  - service_plans
   - goodbye
+  - about
   - nlu_fallback
+
+slots:
+  name:
+    type: text
+    mappings:
+      - type: from_text
+        intent: signup
+  phone:
+    type: text
+    mappings:
+      - type: from_text
+        intent: [check_bill, payment_status, signup]
+  support_phone:
+    type: text
+    mappings:
+      - type: from_text
+        intent: support_ticket
+  awaiting_name:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: custom
+  awaiting_phone:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: custom
+
 responses:
-  utter_greet:
-    - text: "Hello! Welcome to ISP Chatbot. How can I assist you today? 😊 Try saying 'check my bill', 'report outage', 'signup', or 'goodbye'."
-  utter_check_bill:
-    - text: "Please provide your phone number or account ID to check your bill."
-  utter_report_outage:
-    - text: "Sorry to hear you're having issues! Please describe the problem or share your location."
-  utter_signup:
-    - text: "Great! Please provide your phone number and full name to sign up."
+  utter_ask_name:
+    - text: "Please enter your full name. 🌿"
+  utter_ask_phone:
+    - text: "Please enter your phone number (e.g., 0712345678). 🌱"
+  utter_bill_info:
+    - text: "✅ Your bill: {amount} KES, due {due_date}, status: {status}"
+  utter_outage_reported:
+    - text: "✅ Outage reported: {description}. We'll investigate soon! 🌱"
+  utter_signup_success:
+    - text: "✅ Signup successful! Welcome, {name}! 😊"
+  utter_payment_status:
+    - text: "✅ Payment history for {phone}: {total_paid} KES paid. Last payment: {last_payment_date}. 🌱"
+  utter_support_ticket:
+    - text: "✅ Support ticket raised for {description}. Our team will contact you at {support_phone} soon! 🌿"
+  utter_service_plans:
+    - text: "🌟 Bayzinet Service Plans:\n1. Basic - 500 KES/mo (5 Mbps)\n2. Pro - 1000 KES/mo (10 Mbps)\n3. Premium - 2000 KES/mo (20 Mbps)\nReply with plan number to proceed! 😊"
+  utter_invalid_input:
+    - text: "🚫 Oops! Invalid input. Please try again or select a valid option (1-8). 😔"
   utter_goodbye:
     - text: "Thanks for chatting! Have a great day! 👋"
+  utter_about:
+    - text: "🌟 About Bayzinet Customer Care Chatbot:\n- Built with: Rasa, FastAPI, MySQL, Twilio, pymysql, dotenv.\n- Developer: **Ericadesh**\n- Contact: 0741091661\nHappy to assist! 😊"
   utter_fallback:
-    - text: "Sorry, I didn't understand. Try saying 'check my bill', 'report outage', 'signup', or 'goodbye'. 😊"
+    - text: "🚫 Sorry, I didn’t understand. Try a valid option (1-8) or command. 😔"
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
+
+actions:
+  - action_list_commands
+  - action_check_bill
+  - action_report_outage
+  - action_signup
+  - action_payment_status
+  - action_support_ticket
+  - action_service_plans
+  - action_about

@@ -1,0 +1,80 @@
+2025-09-30 23:38:33.206335: whatsapp:+254741091661 - sasa - 🚫 Sorry, I didn’t understand. Try again! 😔
+2025-09-30 23:41:03.812566: whatsapp:+254741091661 - 1 - Please enter your full name. 🌿
+2025-10-01 00:06:52.269097: whatsapp:+254741091661 - sasa - 🚫 Sorry, I didn’t understand. Try again! 😔
+2025-10-01 00:07:25.468801: whatsapp:+254741091661 - check bill - Please enter your phone number (e.g., 0712345678). 🌱
+2025-10-01 00:07:37.322674: whatsapp:+254741091661 - hello - 🚫 Sorry, I didn’t understand. Try again! 😔
+2025-10-01 00:07:45.418807: whatsapp:+254741091661 - exit - Thanks for chatting! Have a great day! 👋
+2025-10-01 00:07:52.602370: whatsapp:+254741091661 - hello - 🚫 Sorry, I didn’t understand. Try again! 😔
+2025-10-01 00:08:04.751420: whatsapp:+254741091661 - report outage - 🚫 Sorry, I didn’t understand. Try again! 😔
+2025-10-02 22:34:14.051970: whatsapp:+254741091661 - hello - 🌟 Please select an option:
+1. Check My Bill
+2. Report Outage
+3. Sign Up
+4. Payment Status
+5. Support Ticket
+6. Service Plans
+7. About
+8. Goodbye
+(Or type the number/command, e.g., '1' or 'check my bill') 😊
+2025-10-02 22:34:30.418031: whatsapp:+254741091661 - 3 - Please enter your phone number (e.g., 0712345678). 🌱
+2025-10-02 22:34:44.217926: whatsapp:+254741091661 - 0977 - Please enter your phone number (e.g., 0712345678). 🌱
+2025-10-02 22:35:01.283799: whatsapp:+254741091661 - exit - Thanks for chatting! Have a great day! 👋
+2025-10-02 22:35:14.968288: whatsapp:+254741091661 - 7 - Please enter your phone number (e.g., 0712345678). 🌱
+2025-10-02 22:35:29.467894: whatsapp:+254741091661 - 8 - Please enter your phone number (e.g., 0712345678). 🌱
+2025-10-02 22:35:37.818574: whatsapp:+254741091661 - exit - Thanks for chatting! Have a great day! 👋
+2025-10-02 22:35:48.067907: whatsapp:+254741091661 - 1 - Please enter your phone number (e.g., 0712345678). 🌱
+2025-10-02 22:35:56.504970: whatsapp:+254741091661 - exit - Thanks for chatting! Have a great day! 👋
+2025-10-02 22:36:07.867730: whatsapp:+254741091661 - 2 - Please enter your phone number (e.g., 0712345678). 🌱
+2025-10-02 22:37:03.717869: whatsapp:+254741091661 - net iko down - ✅ Outage reported: net iko down. We'll investigate soon! 🌱
+2025-10-02 22:37:29.100077: whatsapp:+254741091661 - sign up - Please enter your full name. 🌿
+2025-10-02 22:37:40.749384: whatsapp:+254741091661 - eric adegu - Thanks for chatting! Have a great day! 👋
+2025-10-02 23:12:10.628977: whatsapp:+254741091661 - sasa - 🚫 Sorry, I didn’t understand. Try again! 😔
+2025-10-02 23:12:26.371815: whatsapp:+254741091661 - 1 - 🚫 Sorry, I didn’t understand. Try again! 😔
+2025-10-02 23:12:41.426609: whatsapp:+254741091661 - report outage - 🚫 Sorry, I didn’t understand. Try again! 😔
+2025-10-02 23:33:39.811641: whatsapp:+254741091661 - hello - 🌟 Please select an option:
+1. Check My Bill
+2. Report Outage
+3. Sign Up
+4. Payment Status
+5. Support Ticket
+6. Service Plans
+7. About
+8. Goodbye
+(Or type the number/command, e.g., '1' or 'check my bill') 😊
+2025-10-02 23:33:51.189705: whatsapp:+254741091661 - 7 - 🌟 Bayzinet Service Plans:
+1. Basic - 500 KES/mo (5 Mbps)
+2. Pro - 1000 KES/mo (10 Mbps)
+3. Premium - 2000 KES/mo (20 Mbps)
+Reply with plan number to proceed! 😊
+2025-10-02 23:34:18.305334: whatsapp:+254741091661 - 3 - 🌟 Bayzinet Service Plans:
+1. Basic - 500 KES/mo (5 Mbps)
+2. Pro - 1000 KES/mo (10 Mbps)
+3. Premium - 2000 KES/mo (20 Mbps)
+Reply with plan number to proceed! 😊
+2025-10-02 23:34:44.839451: whatsapp:+254741091661 - about - 🌟 About Bayzinet Customer Care Chatbot:
+- Built with: Rasa, FastAPI, MySQL, Twilio, pymysql, dotenv.
+- Developer: **Ericadesh**
+- Contact: 0741091661
+Happy to assist! 😊
+2025-10-02 23:35:05.074177: whatsapp:+254741091661 - net iko down - ✅ Outage reported: net iko down. We'll investigate soon! 🌱
+2025-10-02 23:41:46.939617: whatsapp:+254741091661 - payment status - Please enter your phone number (e.g., 0712345678). 🌱
+2025-10-02 23:53:43.441048: whatsapp:+254741091661 - hello - 🌟 Please select an option:
+1. Check My Bill
+2. Report Outage
+3. Sign Up
+4. Payment Status
+5. Support Ticket
+6. Service Plans
+7. About
+8. Goodbye
+(Or type the number/command, e.g., '1' or 'check my bill') 😊
+2025-10-02 23:53:56.287300: whatsapp:+254741091661 - 5 - 🌟 Bayzinet Service Plans:
+1. Basic - 500 KES/mo (5 Mbps)
+2. Pro - 1000 KES/mo (10 Mbps)
+3. Premium - 2000 KES/mo (20 Mbps)
+Reply with plan number to proceed! 😊
+2025-10-02 23:54:08.406906: whatsapp:+254741091661 - about - 🌟 About Bayzinet Customer Care Chatbot:
+- Built with: Rasa, FastAPI, MySQL, Twilio, pymysql, dotenv.
+- Developer: **Ericadesh**
+- Contact: 0741091661
+Happy to assist! 😊

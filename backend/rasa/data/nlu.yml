@@ -12,6 +12,11 @@ nlu:
       - hola
       - salaam
       - jambo
+      - good evening
+      - hey there
+      - habari
+      - mambo vipi
+
   - intent: check_bill
     examples: |
       - check my bill
@@ -24,6 +29,13 @@ nlu:
       - check balance
       - invoice status
       - payment due
+      - show balance
+      - how much do I owe
+      - deni langu ni ngapi
+      - 1
+      - one
+      - check bill now
+
   - intent: report_outage
     examples: |
       - my internet is down
@@ -36,6 +48,14 @@ nlu:
       - no network
       - signal problem
       - service outage
+      - internet is off
+      - connection lost
+      - net haifanyi
+      - internet imezimika
+      - 2
+      - two
+      - report outage now
+
   - intent: signup
     examples: |
       - sign me up
@@ -48,6 +68,13 @@ nlu:
       - new account
       - get started
       - subscribe
+      - register me
+      - start account
+      - jiunge na mimi
+      - 3
+      - three
+      - signup now
+
   - intent: goodbye
     examples: |
       - goodbye
@@ -60,3 +87,72 @@ nlu:
       - take care
       - adios
       - exit
+      - see you later
+      - thank you
+      - asante
+      - tuonane baadaye
+      - 8
+      - eight
+      - exit now
+
+  - intent: payment_status
+    examples: |
+      - payment status
+      - check payment
+      - payment history
+      - show payments
+      - what’s my payment status
+      - payment details
+      - how much have I paid
+      - payment record
+      - status ya malipo
+      - payment yangu iko wapi
+      - 4
+      - four
+      - payment status now
+
+  - intent: support_ticket
+    examples: |
+      - support ticket
+      - raise a ticket
+      - need support
+      - help ticket
+      - create support request
+      - contact support
+      - support issue
+      - nataka msaada
+      - nisaidie
+      - ticket ya msaada
+      - 5
+      - five
+      - support ticket now
+
+  - intent: service_plans
+    examples: |
+      - service plans
+      - show plans
+      - what are the plans
+      - check plans
+      - available plans
+      - plan details
+      - show packages
+      - plans za huduma
+      - package zangu
+      - 6
+      - six
+      - service plans now
+
+  - intent: about
+    examples: |
+      - about
+      - who are you
+      - about the bot
+      - tell me about yourself
+      - bot info
+      - your details
+      - kuhusu wewe
+      - nani wewe
+      - habari zako
+      - 7
+      - seven
+      - about now

@@ -1,25 +1,17 @@
 version: "3.1"
-
-rules:
-  - rule: Greet user
+stories:
+  - story: greet user
     steps:
       - intent: greet
       - action: action_list_commands
-
-  - rule: Handle check bill
+  - story: check bill flow
     steps:
       - intent: check_bill
       - action: utter_ask_phone
       - slot_was_set:
           - phone: true
       - action: action_check_bill
-
-  - rule: Handle report outage
-    steps:
-      - intent: report_outage
-      - action: action_report_outage
-
-  - rule: Handle signup
+  - story: signup flow
     steps:
       - intent: signup
       - action: utter_ask_name
@@ -29,31 +21,30 @@ rules:
       - slot_was_set:
           - phone: true
       - action: action_signup
-
-  - rule: Handle payment status
+  - story: payment status flow
     steps:
       - intent: payment_status
       - action: utter_ask_phone
       - slot_was_set:
           - phone: true
       - action: action_payment_status
-
-  - rule: Handle support ticket
+  - story: report outage flow
+    steps:
+      - intent: report_outage
+      - action: action_report_outage
+  - story: support ticket flow
     steps:
       - intent: support_ticket
       - action: action_support_ticket
-
-  - rule: Handle service plans
+  - story: service plans flow
     steps:
       - intent: service_plans
       - action: action_service_plans
-
-  - rule: Handle about
+  - story: about flow
     steps:
       - intent: about
       - action: action_about
-
-  - rule: Say goodbye
+  - story: goodbye flow
     steps:
       - intent: goodbye
       - action: utter_goodbye
